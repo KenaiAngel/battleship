@@ -1,0 +1,13 @@
+/* Celdas */
+.set_own_board_cell {
+  border: 1px solid #aaa;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*Celdas con barcos*/
+.boat_cell {
+    background: rgb(162, 235, 162);
+}

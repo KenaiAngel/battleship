@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="css/set_board.css">
+    <link rel="stylesheet" href="css/battleship.css">
+</head>
+<body>
+    <div id="display_set_board" class="set_board">
+
+        <div class="set_board_code">
+            <p>Code:</p>
+            <p>1234</p>
+        </div>
+
+        <div class="set_board_set">
+            <div>
+                <p>Barcos</p>
+                <div  id="ships-group">
+                    <div>
+                        <input type="radio" name="carrier" value="carrier"/>
+                        <label for="carrier">Portaavion</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="submarine" value="submarine"/>
+                        <label for="submarine">Submarino</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="ship" value="ship"/>
+                        <label for="ship">Barcos</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="boat" value="boat"/>
+                        <label for="boat">Lanchas</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div_board">
+                <p>Tablero</p>
+                <div id="own_board" class="set_own_board">
+                    <!--Dynamic board here-->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="set_board_ready">
+            <button>Ready</button>
+        </div>
+    </div>
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>
