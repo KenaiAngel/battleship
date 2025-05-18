@@ -5,7 +5,7 @@ export class RenderBattleShipBoard {
         this.owner = owner;
     }
 
-
+    //Dibuja el tablero
     drawBattleShipBoard(container) {
         container.style.gridTemplateColumns = `repeat(${this.x}, 1fr)`;
         container.style.gridTemplateRows = `repeat(${this.y}, 1fr)`;
@@ -23,6 +23,8 @@ export class RenderBattleShipBoard {
             }
         }
     }
+
+    //Obtiene quien es, la x y la y, del valor de texto que se le pase 
     get_owner_x_y(id) {
         const regex = /^(.*)_x(\d+)_y(\d+)$/;
         const match = id.match(regex);
@@ -35,7 +37,7 @@ export class RenderBattleShipBoard {
         }
     }
 
-    
+    //Pinta una celda del bote
     printBoat(container, id){
         let son = container.querySelector(`#${id}`);
         son.classList.add('boat_cell');
@@ -46,6 +48,5 @@ export class RenderBattleShipBoard {
     sayHello (){
         console.log(this.x);
     }
-
 
 }

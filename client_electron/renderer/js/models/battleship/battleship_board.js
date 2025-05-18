@@ -1,6 +1,5 @@
 import { Ship } from "./ship.js";
 
-
 export class BattleShipBoard {
     constructor(n, owner) {
         this.x = n;
@@ -12,6 +11,7 @@ export class BattleShipBoard {
 
     }
 
+    //Instacia barcos para la clase juegos
    set_ships() {
         const ships = [];
 
@@ -33,6 +33,7 @@ export class BattleShipBoard {
         return ships;
     }
 
+        //Crea el tablero logico
     create_matrix() {
         const matrix = [];
         for (let y = 0; y < this.y; y++) {
@@ -44,16 +45,19 @@ export class BattleShipBoard {
         }
         return matrix;
     }
-    
+
+    //Busca un barco y lo regresa
     found_ship(id, type) {
         return this.ships.find(ship => ship.type === type && ship.id === id);
     }
     
+    //Dentro de la matrix cambia el estado a uno, ahi hay una parte de un barco
     set_active_boat(x,y){
         console.log(x,y);
         this.position_matrix[y][x] = 1;
     }
 
+    //Ubico los barcos dentro de la matriz
     set_boat (id,type,coords){
        const ship = this.found_ship(id,type);
        ship.set_coords = coords;

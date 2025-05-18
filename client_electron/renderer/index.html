@@ -7,13 +7,63 @@
     
     <link rel="stylesheet" href="css/set_board.css">
     <link rel="stylesheet" href="css/battleship.css">
+    <link rel="stylesheet" href="css/general.css">
 </head>
 <body>
+
+    <div id="main_menu" class="main_menu_class">
+        <div>
+           <button id="go_to_join_menu">Unirse</button>
+        </div>
+        <div>
+            <button  id="go_to_create_menu">Crear</button>
+        </div>
+
+    </div>
+
+    <div id="create_menu" class="create_menu_class">
+        <div>
+            <div>
+            <label for="num_players">Elige el número de jugadores</label>
+            <input list="number_players" id="num_players" name="num_players" />
+            <datalist id="number_players">
+                <option value="2" selected></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+                <option value="6"></option>
+                <option value="7"></option>
+                <option value="8"></option>
+            </datalist>
+            </div>
+
+            <div>
+                <label for="spectators">¿Quieres espectadores en tu partida?</label>
+                <input type="radio" name="spectators" value="yes" />
+            </div>
+        </div>
+
+        <div>
+            <button id="create_party_bttn">Crear</button>
+        </div>
+    </div>
+
+
+    <div id="join_menu" class="join_menu_class">
+        <div>
+            <label for="enter_code">Ingresa el codigo de la salda:</label>
+            <input type="text" id="enter_code" name="enter_code" autocomplete="off">
+        </div>
+        <div>
+            <button  id="search_party_bttn"> Unirse</button>
+        </div>
+    </div>
+
     <div id="display_set_board" class="set_board">
 
         <div class="set_board_code">
             <p>Code:</p>
-            <p>1234</p>
+            <p id="code">1234</p>
         </div>
 
         <div class="set_board_set">
@@ -39,9 +89,9 @@
                 </div>
             </div>
 
-            <div class="div_board">
+            <div class="set_div_board">
                 <p>Tablero</p>
-                <div id="own_board" class="set_own_board">
+                <div id="set_own_board" class="set_own_board">
                     <!--Dynamic board here-->
                 </div>
             </div>

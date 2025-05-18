@@ -1,3 +1,22 @@
+/* Contenedor del tablero ETAPA SET */
+.set_div_board {
+  width: 72vmin;                /* 90% del menor entre ancho/alto del viewport */
+  aspect-ratio: 1 / 1;          /* Cuadrado perfecto */
+  box-sizing: border-box;
+
+  justify-self: center;
+}
+/* Grid del tablero */
+#set_own_board {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 1px;
+  box-sizing: border-box;
+  background: rgb(91, 91, 249);
+}
+/* Contenedor del tablero ETAPA SET */
+
 /* Celdas */
 .set_own_board_cell {
   border: 1px solid #aaa;
@@ -9,5 +28,6 @@
 
 /*Celdas con barcos*/
 .boat_cell {
-    background: rgb(162, 235, 162);
+  background: rgb(162, 235, 162);
 }
+
