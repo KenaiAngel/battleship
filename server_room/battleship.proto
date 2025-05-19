@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package battleship; // Opcional pero recomendable
+
+service BattleShipService {
+  rpc createMessage (CreateRequest) returns (CreateReply);
+  rpc joinMessage (JoinRequest) returns (JoinReply);
+}
+
+message CreateRequest {
+  string amount_user = 1;
+  string current_id = 2;
+  bool spectators = 3;
+}
+
+message CreateReply {
+  bool confirmation = 1; 
+  string new_id = 2;
+  string direction = 3;
+}
+
+message JoinRequest {
+  string current_id = 1;
+  string code = 2;
+}
+
+message JoinReply {
+  bool confirmation = 1; 
+  string new_id = 2;
+  string direction = 3;
+}
