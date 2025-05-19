@@ -48,6 +48,7 @@ app.post('/api/get-access-to-game', (req, res) => {
         confirmation: response.confirmation,
         new_id: response.new_id,
         direction: response.direction,
+        number_players: response.number_players
       });
     }
   );

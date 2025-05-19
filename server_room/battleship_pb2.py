@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x62\x61ttleship.proto\x12\nbattleship\"L\n\rCreateRequest\x12\x13\n\x0b\x61mount_user\x18\x01 \x01(\t\x12\x12\n\ncurrent_id\x18\x02 \x01(\t\x12\x12\n\nspectators\x18\x03 \x01(\x08\"T\n\x0b\x43reateReply\x12\x14\n\x0c\x63onfirmation\x18\x01 \x01(\x08\x12\x0e\n\x06new_id\x18\x02 \x01(\t\x12\x11\n\tdirection\x18\x03 \x01(\t\x12\x0c\n\x04\x63ode\x18\x04 \x01(\t\"/\n\x0bJoinRequest\x12\x12\n\ncurrent_id\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"D\n\tJoinReply\x12\x14\n\x0c\x63onfirmation\x18\x01 \x01(\x08\x12\x0e\n\x06new_id\x18\x02 \x01(\t\x12\x11\n\tdirection\x18\x03 \x01(\t2\x97\x01\n\x11\x42\x61ttleShipService\x12\x43\n\rcreateMessage\x12\x19.battleship.CreateRequest\x1a\x17.battleship.CreateReply\x12=\n\x0bjoinMessage\x12\x17.battleship.JoinRequest\x1a\x15.battleship.JoinReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x62\x61ttleship.proto\x12\nbattleship\"L\n\rCreateRequest\x12\x13\n\x0b\x61mount_user\x18\x01 \x01(\t\x12\x12\n\ncurrent_id\x18\x02 \x01(\t\x12\x12\n\nspectators\x18\x03 \x01(\x08\"T\n\x0b\x43reateReply\x12\x14\n\x0c\x63onfirmation\x18\x01 \x01(\x08\x12\x0e\n\x06new_id\x18\x02 \x01(\t\x12\x11\n\tdirection\x18\x03 \x01(\t\x12\x0c\n\x04\x63ode\x18\x04 \x01(\t\"/\n\x0bJoinRequest\x12\x12\n\ncurrent_id\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"\\\n\tJoinReply\x12\x14\n\x0c\x63onfirmation\x18\x01 \x01(\x08\x12\x0e\n\x06new_id\x18\x02 \x01(\t\x12\x11\n\tdirection\x18\x03 \x01(\t\x12\x16\n\x0enumber_players\x18\x04 \x01(\t2\x97\x01\n\x11\x42\x61ttleShipService\x12\x43\n\rcreateMessage\x12\x19.battleship.CreateRequest\x1a\x17.battleship.CreateReply\x12=\n\x0bjoinMessage\x12\x17.battleship.JoinRequest\x1a\x15.battleship.JoinReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,7 +38,7 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_JOINREQUEST']._serialized_start=196
   _globals['_JOINREQUEST']._serialized_end=243
   _globals['_JOINREPLY']._serialized_start=245
-  _globals['_JOINREPLY']._serialized_end=313
-  _globals['_BATTLESHIPSERVICE']._serialized_start=316
-  _globals['_BATTLESHIPSERVICE']._serialized_end=467
+  _globals['_JOINREPLY']._serialized_end=337
+  _globals['_BATTLESHIPSERVICE']._serialized_start=340
+  _globals['_BATTLESHIPSERVICE']._serialized_end=491
 # @@protoc_insertion_point(module_scope)

@@ -37,7 +37,8 @@ class Party:
     def set_position (self, id, position):
        if self.game.set_ships_for_player(id,position):
            self.players_ready +=1
-           if self.players_ready == len(self.game.players):
+           print(f' {self.players_ready} == {self.amount_players}')
+           if self.players_ready == self.amount_players:
             self.state = 1
     
     def play (self, id,x,y):

@@ -7,6 +7,7 @@ let conection_code =  null;
 let socket_direction = null;
 let number_players = null;
 let socket = null;
+let value_enter_code = null;
 
 
 //Creo el tablero que se va a dibujar y el logico
@@ -62,7 +63,7 @@ function set_tam (number_of_players){
     }
 }
 
-function before_ready (id,code,direction){
+function before_ready (id,code,direction, number=null){
     join_menu.classList.remove("join_menu_class");
     join_menu.classList.add("none");
 
@@ -73,16 +74,31 @@ function before_ready (id,code,direction){
     set_board.classList.add('set_board');
 
     conection_id = id;
-    conection_code =  code;
+
+
+    
     socket_direction = direction;
 
+    
     code_html.textContent = conection_code;
+    let size;
 
-    const size = set_tam(number_players);
+    if(number != null){
+        conection_code = value_enter_code;
+        
+        size = set_tam(number);
+    }else{
+        conection_code =  code;
+        size = set_tam(number_players);
+    }
+    
+    
     if(size === -1){
         console.log('Numero de jugadores no permitidos');
         return;
     } 
+
+    code_html.textContent = conection_code;
     board_to_set = document.getElementById('set_own_board');
 
     renderOwnBoard = new RenderBattleShipBoard(size,conection_id);
@@ -120,7 +136,8 @@ document.getElementById("create_party_bttn").addEventListener('click', async ()=
 
 //Menu  para unirse
 document.getElementById("search_party_bttn").addEventListener('click', async ()=>{
-    const value = document.getElementById('enter_code').value;
+    value_enter_code = document.getElementById('enter_code').value;
+    console.log(value_enter_code);
     const link = 'http://localhost:3000/api/get-access-to-game'; 
     try{
         const rest = await fetch(link, {
@@ -128,9 +145,13 @@ document.getElementById("search_party_bttn").addEventListener('click', async ()=
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ user_id: user_id, code: value })
+            body: JSON.stringify({ user_id: user_id, code: value_enter_code })
         });
         const data = await rest.json();
+        console.log(data);
+        if(data['confirmation']){
+            before_ready(data['new_id'], data['code'],data['direction'], data['number_players']);
+        }
 
 
     } catch(err){

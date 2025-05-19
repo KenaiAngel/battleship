@@ -53,11 +53,12 @@ class BattleShipService(battleship_pb2_grpc.BattleShipServiceServicer):
 
         party = parties[code]
         new_id = party.join_party(request.current_id)
-
+        print(f"number_players={party.amount_players} ({type(party.amount_players)})")
         return battleship_pb2.JoinReply(
             confirmation=True,
             new_id=new_id,
-            direction=SOCKET_URL
+            direction=SOCKET_URL,
+            number_players=str(party.amount_players)
         )
 
 # -----------------------------
@@ -96,7 +97,8 @@ async def handler(websocket):
             if data.get("action") == "set_position":
                 position = data["position"]  # formato definido por tu lógica
                 party.set_position(user_id, position)
-                await websocket.send(json.dumps({"status": "position_set"}))
+                if party.state == 1:
+                    await websocket.send(json.dumps({"status": "position_set"}))
 
             # Manejo de ataques
             elif data.get("action") == "attack":

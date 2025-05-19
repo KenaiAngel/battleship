@@ -29,4 +29,5 @@ message JoinReply {
   bool confirmation = 1; 
   string new_id = 2;
   string direction = 3;
+  string number_players = 4;
 }

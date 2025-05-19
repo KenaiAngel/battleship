@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "main/main.js",
   "scripts": {
-    "start": "electron .",
+    
+    "crear": "electron . crear",
+    "unirse": "electron . unirse",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
