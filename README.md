@@ -9,6 +9,9 @@ SERVER_ROUTER
 --Crear un proyecto con express
     npm init -y
     npm install express
+--Instalar Grpc 
+    npm install @grpc/grpc-js @grpc/proto-loader
+
 
 SERVER ROOM 
 Servidor que alberga los sockets 

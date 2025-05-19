@@ -36,10 +36,6 @@ class BattleShip:
         if len(self.turns) == 0:
             return None
         
-        self.turn += 1
-        if self.turn >= len(self.turns):
-            self.turn = 0
-
         impacted = []
         mssg = None
 
@@ -54,11 +50,22 @@ class BattleShip:
                     self.turns.remove(player.id)
                     if len(self.turns) == 1:
                         self.winner = self.players_playing[0]
-                        return {'winner': self.winner.id}
+                        mssg = {'winner': self.winner.id}
+                        self.plays.append(mssg)
+                        return mssg
+                    
+        self.turn += 1
+        if self.turn >= len(self.turns):
+            self.turn = 0
 
         if impacted:
-            mssg = {'turn': self.turns[self.turn], 'who': impacted, 'x': x, 'y': y}
+            mssg = {'impact':True, 'turn': self.turns[self.turn], 'who': impacted}
+        else:
+            mssg =   {'impact':False,'turn': self.turns[self.turn]}
+        self.plays.append(mssg)
         return mssg
+
+
 
 
 

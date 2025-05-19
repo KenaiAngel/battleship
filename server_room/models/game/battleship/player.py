@@ -12,11 +12,11 @@ class Player(User):
     
     def set_ships(self, ships):
         for ship in ships:
-            current_ship = Ship(ship.id, ship.type, ship.coords, ship.size)
+            current_ship = Ship(ship['id'], ship['type'], ship['coords'], ship['size'])
             self.ships.append(current_ship)
             self.alive_ships.append(current_ship)
         self.amount_ship = len(self.ships)
-    
+
     def attack_ships(self, x, y):
         for ship in self.alive_ships:
             if ship.attack(x, y):
@@ -26,6 +26,13 @@ class Player(User):
                         self.state = 1
                 return True  # Esta línea debe estar dentro del if
         return False
+    
+""" def set_ships(self, ships):
+for ship in ships:
+    current_ship = Ship(ship.id, ship.type, ship.coords, ship.size)
+    self.ships.append(current_ship)
+    self.alive_ships.append(current_ship)
+self.amount_ship = len(self.ships)"""
 
 
 

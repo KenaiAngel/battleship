@@ -15,3 +15,4 @@ class Ship:
                     self.status = 1
                 return True
         return False
+

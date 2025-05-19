@@ -8,6 +8,7 @@ export class BattleShipBoard {
         this.position_matrix = this.create_matrix();
         this.amount_ship = {'carrier':1, 'submarine':1, 'ship':3, 'boat':5};
         this.ships = this.set_ships();
+        this.all_ships = []
 
     }
 
@@ -61,6 +62,9 @@ export class BattleShipBoard {
     set_boat (id,type,coords){
        const ship = this.found_ship(id,type);
        ship.set_coords = coords;
+
+       this.all_ships.push({'id':ship.id, 'type': ship.type, 'coords':coords, 'size':ship.size});
+
        console.log(ship);
        coords.forEach(coord => {
            this.set_active_boat(coord.x,coord.y);
