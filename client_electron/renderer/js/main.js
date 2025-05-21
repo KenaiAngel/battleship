@@ -19,7 +19,8 @@ let board_to_set = null;
 let size;
 
 //Secciones de la Aplicacion/Flujo
-let user_id = 'Lobito';
+let user_id = `user_${crypto.randomUUID()}`;
+
 const main_menu = document.getElementById("main_menu");
 const create_menu = document.getElementById("create_menu");
 const join_menu = document.getElementById("join_menu");
@@ -81,34 +82,27 @@ function before_ready (id,code,direction, number=null){
     set_board.classList.add('set_board');
 
     conection_id = id;
-
-
-    
     socket_direction = direction;
 
-    
-    code_html.textContent = conection_code;
-
-    if(number != null){
+    if (number != null) {
         conection_code = value_enter_code;
-        
         size = set_tam(number);
-    }else{
-        conection_code =  code;
+    } else {
+        conection_code = code;
         size = set_tam(number_players);
     }
-    
-    
-    if(size === -1){
+
+    if (size === -1) {
         console.log('Numero de jugadores no permitidos');
         return;
-    } 
+    }
 
-    code_html.textContent = conection_code;
+    code_html.textContent = conection_code;  // ✅ Ahora sí está definido
+
     board_to_set = document.getElementById('set_own_board');
 
-    renderOwnBoard = new RenderBattleShipBoard(size,conection_id);
-    logicalOwnBoard = new BattleShipBoard(size,conection_id);
+    renderOwnBoard = new RenderBattleShipBoard(size, conection_id);
+    logicalOwnBoard = new BattleShipBoard(size, conection_id);
 
     renderOwnBoard.drawBattleShipBoard(board_to_set);
 
@@ -303,16 +297,22 @@ document.querySelectorAll('#ships-group input[type="radio"]').forEach(radio => {
 });
 
 document.getElementById('ready_to_set_bttn').addEventListener('click', () => {
-
-    socket = new WebSocket(socket_direction);  
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        console.warn("WebSocket ya conectado");
+        
+    }else{
+        socket = new WebSocket(socket_direction);  
+    }
+    
 
     socket.onopen = () => {
-        console.log("🟢 Conectado al WebSocket");
+
+        console.log(`🟢 Conectado al WebSocket ${conection_id}`);
 
         // Paso 1: Identificación
         const ready_mssg = {
-            user_id: conection_id,
-            code: conection_code
+            'user_id': conection_id,
+            'code': conection_code
         };
         socket.send(JSON.stringify(ready_mssg));
         set_board.classList.remove('set_board');

@@ -18,7 +18,7 @@ class BattleShip:
         if self.counter_players > self.amount_players:
             return {'confirmation': False}
         
-        current_player = Player(current_id + str(self.counter_players), current_id, 'player')
+        current_player = Player(current_id , current_id, 'player')
         self.players.append(current_player)
         self.players_playing.append(current_player)
         self.turns.append(current_player.id)
@@ -68,6 +68,7 @@ class BattleShip:
     def get_players_ids (self):
         player_ids = []
         for player in self.players:
+            print(player.id)
             player_ids.append(player.id)
         return player_ids 
     

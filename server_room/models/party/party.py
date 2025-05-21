@@ -35,10 +35,19 @@ class Party:
         return new_id
     
     def set_medium(self, id, medium):
+        from websockets.legacy.server import WebSocketServerProtocol  # Importación explícita
+
         if id in self.users:
-            self.users[id] = medium
-            return True
-        return False 
+            if isinstance(medium, WebSocketServerProtocol):
+                print(f"🔧 Asignando socket válido a {id}")
+                self.users[id] = medium
+                return True
+            else:
+                print(f"⚠️ medium para {id} no es WebSocket válido: {type(medium)}")
+                return False
+        print(f"❌ {id} no existe en self.users")
+        return False
+
 
     def set_position (self, id, position):
        if self.game.set_ships_for_player(id,position):
@@ -57,14 +66,21 @@ class Party:
         
         return {'turn': mssg['turn'], 'who': mssg['who'],'x':x,'y':y, 'mssg': 'impact'}
     
+
     def get_players(self):
         players = {}
+        print("🧩 get_players llamado")
+        print("users.keys():", list(self.users.keys()))
+        print("game.get_players_ids():", self.game.get_players_ids())
 
         for player_id in self.game.get_players_ids():
             if player_id in self.users:
                 players[player_id] = self.users.get(player_id)
-
+                print(f"DICCIONARIO {player_id}")
+            else:
+                print(f"❌ {player_id} no está en self.users")
         return players
+
     
     def get_turn(self):
         return self.game.get_current_turn()
