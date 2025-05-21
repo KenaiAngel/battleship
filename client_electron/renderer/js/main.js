@@ -8,12 +8,15 @@ let socket_direction = null;
 let number_players = null;
 let socket = null;
 let value_enter_code = null;
+let is_my_turn = false;
 
 
 //Creo el tablero que se va a dibujar y el logico
 let renderOwnBoard = null;
+let renderRivalBoard = null;
 let logicalOwnBoard = null;
 let board_to_set = null;
+let size;
 
 //Secciones de la Aplicacion/Flujo
 let user_id = 'Lobito';
@@ -22,10 +25,14 @@ const create_menu = document.getElementById("create_menu");
 const join_menu = document.getElementById("join_menu");
 const set_board = document.getElementById("display_set_board");
 let code_html =  document.getElementById("code");
+let game_board = document.getElementById("display_game_board");
 
 //Esconder Secciones de la Aplicacion/Flujo
 set_board.classList.remove('set_board');
 set_board.classList.add('none');
+
+game_board.classList.remove('game_board');
+game_board.classList.add('none');
 
 create_menu.classList.remove("create_menu_class");
 create_menu.classList.add("none");
@@ -81,7 +88,6 @@ function before_ready (id,code,direction, number=null){
 
     
     code_html.textContent = conection_code;
-    let size;
 
     if(number != null){
         conection_code = value_enter_code;
@@ -297,6 +303,7 @@ document.querySelectorAll('#ships-group input[type="radio"]').forEach(radio => {
 });
 
 document.getElementById('ready_to_set_bttn').addEventListener('click', () => {
+
     socket = new WebSocket(socket_direction);  
 
     socket.onopen = () => {
@@ -308,6 +315,9 @@ document.getElementById('ready_to_set_bttn').addEventListener('click', () => {
             code: conection_code
         };
         socket.send(JSON.stringify(ready_mssg));
+        set_board.classList.remove('set_board');
+        set_board.classList.add('none');
+        
 
         // Paso 2: Enviar posiciones de los barcos
         const set_ships = {
@@ -323,6 +333,25 @@ document.getElementById('ready_to_set_bttn').addEventListener('click', () => {
 
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
+        if (data['confirmation'] === 'ready'){
+
+            console.log(data['confirmation']);
+            game_board.classList.remove('none');
+            game_board.classList.add('game_board');
+
+            board_to_set = document.getElementById('game_own_board');
+            renderOwnBoard.drawBattleShipBoardBaseOnMarix(board_to_set,logicalOwnBoard.position_matrix);
+
+            board_to_set = document.getElementById('game_rival_board');
+            renderRivalBoard = new RenderBattleShipBoard(size,'Rival');
+            renderRivalBoard.drawBattleShipBoard(board_to_set);
+
+            console.log(`${data['turn']} === ${conection_id}`);
+            if(data['turn'] === conection_id){
+                is_my_turn = true;
+            }
+        }
+
         console.log("📨 Mensaje recibido del servidor:", data);
     };
 
@@ -330,3 +359,4 @@ document.getElementById('ready_to_set_bttn').addEventListener('click', () => {
         console.log("🔴 WebSocket cerrado");
     };
 });
+

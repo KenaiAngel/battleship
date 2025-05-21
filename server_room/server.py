@@ -64,17 +64,14 @@ class BattleShipService(battleship_pb2_grpc.BattleShipServiceServicer):
 # -----------------------------
 # Servidor WebSocket
 # -----------------------------
-sockets_by_user = {}
-
 async def handler(websocket):
-    user_id = None
     try:
-        # Espera mensaje inicial para identificar al usuario y la partida
+        # Mensaje inicial de identificación
         init_message = await websocket.recv()
         init_data = json.loads(init_message)
 
         user_id = init_data.get("user_id")
-        code = init_data.get("code")  # código de partida
+        code = init_data.get("code")
 
         if not user_id or not code:
             await websocket.send(json.dumps({"error": "user_id y code requeridos"}))
@@ -84,52 +81,59 @@ async def handler(websocket):
             await websocket.send(json.dumps({"error": "Partida no encontrada"}))
             return
 
-        # Guarda el socket
-        sockets_by_user[user_id] = websocket
         party = parties[code]
+        success = party.set_medium(user_id, websocket)
 
-        await websocket.send(json.dumps({"message": f"{user_id} conectado a partida {code}"}))
+        if success:
+            await websocket.send(json.dumps({
+                "confirmation": True,
+                "message": f"{user_id} conectado a partida {code}"
+            }))
+        else:
+            await websocket.send(json.dumps({
+                "confirmation": False,
+                "message": f"{user_id} ocurrió un error al conectar"
+            }))
+            return
 
-        async for msg in websocket:
-            data = json.loads(msg)
+        # Bucle principal de escucha de mensajes
+        async for mssg in websocket:
+            data = json.loads(mssg)
 
-            # Manejo de colocar barcos
+            # Colocar barcos
             if data.get("action") == "set_position":
-                position = data["position"]  # formato definido por tu lógica
+                position = data["position"]
                 party.set_position(user_id, position)
+                print(party.get_players())
+
                 if party.state == 1:
-                    await websocket.send(json.dumps({"status": "position_set"}))
+                    turn = party.get_turn()
+                    print('Holaap')
+                    
+                    for current_socket in party.get_players().values():
+                        await current_socket.send(json.dumps({"confirmation": "ready", "turn":turn, "mssg":"All Players Ready To Play"}))
+                    
 
-            # Manejo de ataques
+            # Ataque
             elif data.get("action") == "attack":
+                attacker = data["user_id"]
                 x, y = data["x"], data["y"]
-                result = party.play(user_id, x, y)
+                result = party.play(attacker, x, y)
 
-                # Enviar respuesta al atacante
-                await websocket.send(json.dumps(result))
-
-                # Si hay otro jugador afectado, notificárselo también
-                if "who" in result:
-                    target_id = result["who"]
-                    if target_id in sockets_by_user:
-                        await sockets_by_user[target_id].send(json.dumps(result))
+                for current_socket in party.get_players().values():
+                    await current_socket.send(json.dumps(result))
 
             else:
                 await websocket.send(json.dumps({"error": "Acción no válida"}))
 
     except Exception as e:
         print(f"Error en handler: {e}")
-    finally:
-        if user_id in sockets_by_user:
-            del sockets_by_user[user_id]
 
 async def start_websocket_server():
     print("🚀 Iniciando WebSocket...")  
     async with websockets.serve(handler, WEBSOCKET_HOST, WEBSOCKET_PORT):
         print(f"WebSocket escuchando en {SOCKET_URL}")
         await asyncio.Future()  # run forever
-
-
 
 # -----------------------------
 # Servidor gRPC

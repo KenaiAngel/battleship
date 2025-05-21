@@ -65,6 +65,14 @@ class BattleShip:
         self.plays.append(mssg)
         return mssg
 
+    def get_players_ids (self):
+        player_ids = []
+        for player in self.players:
+            player_ids.append(player.id)
+        return player_ids 
+    
+    def get_current_turn(self):
+        return self.turns[self.turn] 
 
 
 

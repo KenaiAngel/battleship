@@ -7,6 +7,8 @@
   justify-self: center;
 }
 /* Grid del tablero */
+#game_own_board,
+#game_rival_board,
 #set_own_board {
   width: 100%;
   height: 100%;
@@ -16,6 +18,15 @@
   background: rgb(91, 91, 249);
 }
 /* Contenedor del tablero ETAPA SET */
+
+/*Contenedor para renderizar tableros en la paritda*/
+
+.battleship_game{
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+
+}
+
 
 /* Celdas */
 .set_own_board_cell {

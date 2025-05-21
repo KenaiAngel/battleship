@@ -4,7 +4,7 @@ from models.chat.chat import Chat
 class Party:
     def __init__(self, code, game_name, amount_players, chat):
         self.code = code
-        self.users = []
+        self.users = {}
         self.chat = chat
         self.game_name = game_name
         self.amount_players = amount_players
@@ -27,17 +27,22 @@ class Party:
         if not confirmation:
             new_id = user + str(self.connected_users)
 
-            self.users.append(new_id)
+            self.users[new_id] = ''
             return new_id
 
         new_id = response['new_id']
-        self.users.append(new_id)
+        self.users[new_id] = ''
         return new_id
     
+    def set_medium(self, id, medium):
+        if id in self.users:
+            self.users[id] = medium
+            return True
+        return False 
+
     def set_position (self, id, position):
        if self.game.set_ships_for_player(id,position):
            self.players_ready +=1
-           print(f' {self.players_ready} == {self.amount_players}')
            if self.players_ready == self.amount_players:
             self.state = 1
     
@@ -50,7 +55,19 @@ class Party:
         if mssg['winner']:
             return {'winner':mssg['winner'], 'mssg': 'win match'}
         
-        return {'turn': mssg['turn'], 'who': mssg['who'],'x':x,'y':y, 'mssg': 'no impact'}
+        return {'turn': mssg['turn'], 'who': mssg['who'],'x':x,'y':y, 'mssg': 'impact'}
+    
+    def get_players(self):
+        players = {}
 
-           
+        for player_id in self.game.get_players_ids():
+            if player_id in self.users:
+                players[player_id] = self.users.get(player_id)
+
+        return players
+    
+    def get_turn(self):
+        return self.game.get_current_turn()
+
+            
 
